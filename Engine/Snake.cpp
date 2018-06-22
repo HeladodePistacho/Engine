@@ -73,8 +73,16 @@ private:
 				dir_asigned = true;
 			}
 		}
+
 		if (GetKeyState(KEY::KEY_ESC) == KEY_STATE::KEY_DOWN)
 			CloseGame();
+
+		if (GetKeyState(KEY::KEY_SPACE) == KEY_STATE::KEY_DOWN)
+		{
+			if(IsGamePaused())
+				SetPauseGame(false);
+			else SetPauseGame(true);
+		}
 	}
 
 	void UpdatePlayer()
@@ -174,7 +182,7 @@ private:
 
 		char pos_ok = GetCharAtScreenBuffer(objective_pos.x, objective_pos.y);
 
-		if (pos_ok == '@' || pos_ok == '#')
+		if (pos_ok != '.')
 		{
 			for (int iter = 0; iter < GetScreenHeight() * GetScreenWidth(); iter++)
 				if (GetCharAtScreenBuffer(iter) == '.')
@@ -273,6 +281,9 @@ private:
 	{
 		HandleInput();
 
+		if (IsGamePaused())
+			return;
+
 		if (player_timer >= update_timer)
 		{
 			UpdatePlayer();
@@ -297,7 +308,7 @@ int main()
 	
 	SnakeGame game(L"SNAKE");
 
-	if(game.CreateConsoleWindow(15, 15, 20, 20))
+	if(game.CreateConsoleWindow(20, 20, 17, 17))
 		game.StartGame();
 
 	return 0;

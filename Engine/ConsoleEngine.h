@@ -115,6 +115,7 @@ private:
 	SMALL_RECT screen_window;
 
 	bool in_game = true;
+	bool in_pause = false;
 
 	//Keys
 	KEY_STATE keyboard[256];
@@ -160,7 +161,7 @@ public:
 		//Check if new width and height are able
 		CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
 		if (!GetConsoleScreenBufferInfo(console_output_handle, &screen_buffer_info))
-			return 1;
+			return false;
 
 		if (new_screen_width > screen_buffer_info.dwMaximumWindowSize.X)
 			screen_width = screen_buffer_info.dwMaximumWindowSize.X;
@@ -237,6 +238,10 @@ public:
 	virtual void GameplayUpdate(float delta_time) = 0;
 
 	virtual void CleanGameMemory() = 0;
+
+	void SetPauseGame(bool pause) { in_pause = pause; };
+
+	bool IsGamePaused() { return in_pause; };
 
 	//---------------Functionality----------------
 	int GetScreenWidth() { return screen_width; }
