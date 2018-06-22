@@ -4,12 +4,14 @@ In this project i will revive retro games and those will be made in c++ and disp
 
 ## Current Games:
 * ### Snake:
-#### Controls:
-* w,a,s,d to move.
-* up, down, right, left to move.
 
-* ### Tetris: Work in progress :v
+* * #### Controls:
+* * w,a,s,d to move.
+* * up, down, right, left to move.
+* * esc to close.
+* * space to pause.
 
+![](https://i.gyazo.com/e5f703f27923557bd73e1ec12dda4a6f.gif)
 
-## Example Street scene:
-![](https://i.gyazo.com/2fb46188c5188013b7bd76f6e2278bfc.jpg)
+* ### Tetris: 
+Work in progress :v
