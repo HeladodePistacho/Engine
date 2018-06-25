@@ -26,5 +26,8 @@
     <ClCompile Include="Snake.cpp">
       <Filter>Archivos de código fuente\Games</Filter>
     </ClCompile>
+    <ClCompile Include="Tetris.cpp">
+      <Filter>Archivos de código fuente\Games</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

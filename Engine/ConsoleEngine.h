@@ -103,6 +103,29 @@ enum KEY_STATE
 	KEY_UP
 };
 
+
+class Point
+{
+public:
+	int x, y;
+
+	Point() { x = 0; y = 0; }
+	Point(int _x, int _y) : x(_x), y(_y) {}
+	Point(const Point& new_point) : x(new_point.x), y(new_point.y) {}
+
+	void SetXY(int new_x, int new_y)
+	{
+		x = new_x;
+		y = new_y;
+	}
+
+	bool operator==(Point other_point)
+	{
+		return (other_point.x == x && other_point.y == y);
+	}
+};
+
+
 class ConsoleEngine
 {
 private:
@@ -285,6 +308,8 @@ public:
 		if (value < min) value = min;
 		if (value > max) value = max;
 	}
+
+	int GetScreenSize() { return (screen_width * screen_height); }
 
 
 	//---------------Draw functions---------------
