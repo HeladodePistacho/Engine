@@ -42,6 +42,65 @@ private:
 			}
 		}
 
+		void MoveHorizontal(int dir)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				blocks[i].x += dir;
+			}
+		}//dir -1 left +1 right
+
+		//0 upper piece, 1 lefter piece, 2 righter piece, 3 downer piece
+		Point GetFurtherPiece(int pos)
+		{
+			Point ret = blocks[0];
+
+			switch (pos)
+			{
+			case 0:
+				for (int i = 0; i < 4; i++)
+				{
+					if (blocks[i].y < ret.y)
+						ret = blocks[i];
+				}
+
+				break;
+
+			case 1:
+
+				for (int i = 0; i < 4; i++)
+				{
+					if (blocks[i].x < ret.x)
+						ret = blocks[i];
+				}
+
+				break;
+
+			case 2:
+
+				for (int i = 0; i < 4; i++)
+				{
+					if (blocks[i].x > ret.x)
+						ret = blocks[i];
+				}
+
+				break;
+
+			case 3:
+
+				for (int i = 0; i < 4; i++)
+				{
+					if (blocks[i].y > ret.y)
+						ret = blocks[i];
+				}
+
+				break;
+			}
+
+			return ret;
+		}
+
+
 	private:
 		Point* blocks;
 
@@ -126,6 +185,8 @@ private:
 	int scenery_width = 12;
 	int scenery_height = 22;
 
+	int offset = 0;
+
 	float update_time = 0.8f;
 	float timer = 0.0f;
 
@@ -142,9 +203,9 @@ private:
 		//Draw scenary
 		for (int y = 0; y < scenery_height; y++)
 		{
-			for (int x = 0; x < scenery_width; x++)
+			for (int x = offset; x < (offset + scenery_width); x++)
 			{
-				if (x == 0 || x == (scenery_width - 1))
+				if (x == offset || x == (offset + scenery_width - 1))
 					DrawPixel(x, y, COLOR::FG_GREY, PIXEL_TYPE::PIXEL_HALF);
 
 				if (y == (scenery_height - 1))
@@ -161,6 +222,14 @@ private:
 
 	}
 
+	void HandleInput()
+	{
+		if (GetKeyState(KEY::KEY_ARROW_LEFT) == KEY_STATE::KEY_DOWN && current_piece->GetFurtherPiece(1).x > (offset + 1))
+			current_piece->MoveHorizontal(-1);
+
+		if (GetKeyState(KEY::KEY_ARROW_RIGHT) == KEY_STATE::KEY_DOWN && current_piece->GetFurtherPiece(2).x < (offset + scenery_width - 2))
+			current_piece->MoveHorizontal(1);
+	}
 
 	void GameplayStart()
 	{
@@ -170,11 +239,13 @@ private:
 		int number = value.count();
 
 		srand(number);
-		current_piece = new TetrisPiece((TetrisPiece::TETRIS_PIECE_TYPE)(rand() % 7), 0);
+		current_piece = new TetrisPiece((TetrisPiece::TETRIS_PIECE_TYPE)(rand() % 7), offset);
 	}
 
 	void GameplayUpdate(float delta_time)
 	{
+		HandleInput();
+
 		if (timer >= update_time)
 		{
 			current_piece->MoveDown();
@@ -188,10 +259,7 @@ private:
 	void CleanGameMemory() 
 	{
 
-	}
-
-private:
-	
+	}	
 
 };
 
