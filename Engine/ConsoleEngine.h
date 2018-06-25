@@ -396,6 +396,8 @@ private:
 				keyboard[i] = KEY_NONE;
 		}
 
+		KEY_STATE LOL = keyboard[39];
+
 		//Handle Events
 		for (int i = 0; i < num_events; i++)
 		{
@@ -404,11 +406,12 @@ private:
 			case KEY_EVENT:
 				//events_buffer[i].Event.KeyEvent.
 
-				if (events_buffer[i].Event.KeyEvent.bKeyDown)
+				if (events_buffer[i].Event.KeyEvent.bKeyDown && keyboard[events_buffer[i].Event.KeyEvent.wVirtualKeyCode] != KEY_REPEAT)
 				{
 					keyboard[events_buffer[i].Event.KeyEvent.wVirtualKeyCode] = KEY_DOWN;
 				}
-				else keyboard[events_buffer[i].Event.KeyEvent.wVirtualKeyCode] = KEY_UP;
+				
+				if (!events_buffer[i].Event.KeyEvent.bKeyDown) keyboard[events_buffer[i].Event.KeyEvent.wVirtualKeyCode] = KEY_UP;
 					
 
 				break;
