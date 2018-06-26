@@ -98,9 +98,9 @@ enum KEY
 enum KEY_STATE
 {
 	KEY_NONE,
+	KEY_UP,
 	KEY_DOWN,
-	KEY_REPEAT,
-	KEY_UP
+	KEY_REPEAT
 };
 
 
@@ -118,10 +118,27 @@ public:
 		x = new_x;
 		y = new_y;
 	}
+	void SetXY(const Point& new_point)
+	{
+		x = new_point.x;
+		y = new_point.y;
+	}
 
 	bool operator==(Point other_point)
 	{
 		return (other_point.x == x && other_point.y == y);
+	}
+	Point operator-(Point other_point)
+	{
+		Point ret;
+		ret.SetXY(x - other_point.x, y - other_point.y);
+
+		return ret;
+	}
+	void operator=(Point other_point)
+	{
+		x = other_point.x;
+		y = other_point.y;
 	}
 };
 
@@ -398,6 +415,8 @@ private:
 
 		KEY_STATE LOL = keyboard[39];
 
+		
+
 		//Handle Events
 		for (int i = 0; i < num_events; i++)
 		{
@@ -406,7 +425,7 @@ private:
 			case KEY_EVENT:
 				//events_buffer[i].Event.KeyEvent.
 
-				if (events_buffer[i].Event.KeyEvent.bKeyDown && keyboard[events_buffer[i].Event.KeyEvent.wVirtualKeyCode] != KEY_REPEAT)
+				if (events_buffer[i].Event.KeyEvent.bKeyDown && keyboard[events_buffer[i].Event.KeyEvent.wVirtualKeyCode] == KEY_NONE)
 				{
 					keyboard[events_buffer[i].Event.KeyEvent.wVirtualKeyCode] = KEY_DOWN;
 				}
